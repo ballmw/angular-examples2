@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+
+    <script src="data/movies.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="MyController">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+
+            <h1>{{title}}</h1>
+
+            <h2>All</h2>
+            <ul>
+                <li ng-repeat="actor in cast">
+                    <actor/>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="bower_components/angular/angular.js"></script>
+<script>
+    var myApp = angular.module('myApp', []);
+
+    myApp.controller("MyController", function ($scope) {
+        $scope.title = "Toy Story";
+        $scope.cast = window.movies;
+
+        $scope.favorite = function (actor) {
+            return actor.favorite;
+        }
+
+
+    })
+
+</script>
+<script src="components/directives.js"></script>
+</body>
+</html>

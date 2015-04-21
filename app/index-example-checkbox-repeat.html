@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Checkbox Repeat</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+
+    <script src="data/movies.js"></script>
+    <style>
+        .favorite {
+            border: 2px solid red;
+        }
+    </style>
+
+</head>
+<body ng-app="myApp" ng-controller="MyController">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+            <h1>{{title}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-3 col-sm-2">
+
+
+            <h2>All</h2>
+            <ul>
+                <li ng-repeat="actor in cast| orderBy:'name'" ng-style="{'border:2px solid green':actor.favorite}">
+                    <input type="checkbox" ng-model="actor.favorite">{{actor.name}} - {{actor.characters[0]}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-2">
+
+            <h2>Favorites</h2>
+            <input type="checkbox" ng-model="search.favorite">
+            <ul>
+                <li ng-repeat="actor in cast| filter:favorite | orderBy:'name'">
+                    {{actor.name}} - {{actor.characters[0]}}
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<script src="bower_components/angular/angular.js"></script>
+
+<script>
+    var myApp = angular.module('myApp', []);
+
+    myApp.controller("MyController", function ($scope) {
+        $scope.title = "Toy Story";
+        $scope.cast = window.movies;
+
+        $scope.favorite = function (actor) {
+            return actor.favorite == $scope.search.favorite; //true, (falsies -) false or null
+        }
+
+        //comparative object
+        $scope.search = {
+            favorite: true
+        };
+
+    });
+
+</script>
+
+</body>
+</html>

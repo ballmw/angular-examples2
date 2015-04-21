@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+    <style>
+        form {
+            margin: 5px;
+            padding: 20px;
+        }
+
+        form.ng-invalid {
+            border: 2px solid red;
+        }
+
+        input.ng-invalid {
+            background-color: red;
+        }
+
+        input.ng-valid {
+            background-color: green;
+        }
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="MyController">
+<h1>{{title}}</h1>
+
+<h2>Form Example</h2>
+
+{{message}}
+{{myForm.$error}}
+<form name="myForm" ng-submit="submit()">
+    first:<input name="firstname" ng-model="form.firstname" required ng-minlength="2">
+    last:<input name="lastname" ng-model="form.lastname" required ng-minlength="2"><br/>
+
+    phone:<input name="phone" ng-model="form.phone" ng-pattern="/^[2-9]\d{2}-\d{3}-\d{4}$/"> ex: 555-555-5555
+    <input type="submit">Submit</input>
+    <h3>results:</h3>
+
+    <div>firstname-{{firstname}}</div>
+    <div>lastname -{{lastname}}</div>
+    <div>phone -{{phone}}</div>
+
+</form>
+<script src="bower_components/angular/angular.js"></script>
+
+<script>
+    var myApp = angular.module('myApp', []);
+
+
+    myApp.config(function($logProvider){
+        $logProvider.debugEnabled(true);
+    });
+
+
+    myApp.controller("MyController", function ($scope, $log) {
+        $scope.submit = function(){
+            $log.debug('before I check validation');
+            if($scope.myForm.$valid){
+                $log.info('form is valid');
+                $scope.message = "Valid form, I could submit.";
+                $scope.message = $scope.message + angular.toJson({"form":$scope.form})
+            } else {
+                $log.warn('form is invalid');
+                $scope.message = "Invalid form, I won't submit.  ";
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

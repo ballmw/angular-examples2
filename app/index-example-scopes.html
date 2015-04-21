@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="My1Controller">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+
+            <h1>{{form.name}}</h1>
+
+            <input type="text" ng-model="form.name"/>
+            {{form.name}}
+
+            <input type="text" ng-model="name"/>
+            {{name}}
+
+            <div ng-controller="My2Controller">
+                <input type="text" ng-model="form.name"/>
+                {{form.name}}
+
+                <input type="text" ng-model="name"/>
+                {{name}}
+            </div>
+        </div>
+    </div>
+</div>
+<script src="bower_components/angular/angular.js"></script>
+<script>
+    var myApp = angular.module('myApp', []);
+
+    myApp.controller("My1Controller", ['$scope', function ($scope) {
+        $scope.form = {};
+        $scope.form.name = "Ernie";
+        $scope.name = 'Bert';
+    }]).controller("My2Controller", ['$scope', function ($scope) {
+
+    }]).controller("My3Controller", ['$scope', function ($scope) {
+
+    }]).controller("My4Controller", ['$scope', function ($scope) {
+
+    }]);
+</script>
+</body>
+
+</html>
