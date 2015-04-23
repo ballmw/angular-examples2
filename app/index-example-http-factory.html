@@ -17,9 +17,18 @@
 <body ng-app="myApp" ng-controller="MyController">
 <div class="container">
     <div class="row">
-        <div class="col-lg-8 col-md-7 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <ul>
+                <li ng-repeat="movie in movies">
+                    {{movie.name}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
 
-            {{data | json}}
+            <pre>
+            {{movies | json}}
+            </pre>
         </div>
     </div>
 </div>
@@ -29,13 +38,23 @@
 
     myApp.controller("MyController", ['$scope', 'myService', '$q', function ($scope, myService, $q) {
 
-        myService.loadData().then(function(){
+        myService.loadData().then(function (result) {
 
-        }, function(){
+            $scope.movies = result.data;
+
+        }, function (error) {
 
         });
 
-    }]).factory("myService", ['$http', function($http){
+    }]).factory("myService", ['$http', function ($http) {
+        var obj = {};
+
+        obj.loadData = function () {
+            var awsURL = "https://s3.amazonaws.com/sourcemain.com/movies.json";
+            return $http.get(awsURL);
+        }
+
+        return obj;
 
     }]);
 </script>
