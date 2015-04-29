@@ -21,10 +21,13 @@
 
             <h1>{{title}}</h1>
 
-            <input type="text" ng-model="search.characters"/>
+            name: <input type="text" ng-model="search.name"/><br>
+            character: <input type="text" ng-model="search.characters"/>
 
-            <h2>Search Results for {{search.characters}}</h2>
-            <h3>Showing {{filtered.length}} of {{cast.length}}</h3>
+            <h2>Search Results for {{search}}</h2>
+
+            <!--<h3>Showing {{filtered.length}} of {{cast.length}}</h3>-->
+
             <ul>
                 <li ng-repeat="actor in filtered = (cast | filter:search)">
                     <actor/>

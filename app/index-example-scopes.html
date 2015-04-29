@@ -89,12 +89,18 @@
     var myApp = angular.module('myApp', []);
 
     myApp.controller("My1Controller", ['$scope', function ($scope) {
-        $scope.form = {};
+
+        $scope.form = {}; //object
         $scope.form.name = "Ernie";
-        $scope.name = 'Bert';
+
+        //avoid this:
+        $scope.name = 'Bert'; //primitive
+
     }]).controller("My2Controller", ['$scope', function ($scope) {
+
         $scope.names = [];
         $scope.formnames = [];
+
         $scope.$watch('name', function (newValue, oldValue) {
             $scope.names.push(newValue);
         });

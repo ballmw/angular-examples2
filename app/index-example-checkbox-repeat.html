@@ -29,27 +29,33 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4 col-md-3 col-sm-2">
+        <div class="col-lg-6 col-md-6 col-sm-2">
 
 
             <h2>All</h2>
             <ul>
-                <li ng-repeat="actor in cast| orderBy:'name'" ng-style="{'border:2px solid green':actor.favorite}">
-                    <input type="checkbox" ng-model="actor.favorite">{{actor.name}} - {{actor.characters[0]}}
+                <li ng-repeat="actor in cast| orderBy:'name'"
+                    ng-style="{'border':actor.favorite?'2px solid green':'none'}">
+                    <input type="checkbox"
+                           ng-model="actor.favorite">
+                    {{actor.name}} - {{actor.characters[0]}}
                 </li>
             </ul>
         </div>
-        <div class="col-lg-4 col-md-3 col-sm-2">
+        <div class="col-lg-6 col-md-6 col-sm-2">
 
             <h2>Favorites</h2>
             <input type="checkbox" ng-model="search.favorite">
             <ul>
-                <li ng-repeat="actor in cast| filter:favorite | orderBy:'name'">
+                <li ng-repeat="actor in cast| filter:filterFavorites | orderBy:'name'">
                     {{actor.name}} - {{actor.characters[0]}}
                 </li>
             </ul>
 
         </div>
+        <pre>
+        {{cast|json}}
+        </pre>
     </div>
 </div>
 <script src="bower_components/angular/angular.js"></script>
@@ -64,6 +70,15 @@
         $scope.favorite = function (actor) {
             return actor.favorite == $scope.search.favorite; //true, (falsies -) false or null
         }
+
+        $scope.filterFavorites = function(actual, expected){
+            if($scope.search.favorite) {
+                return actual.favorite === true;
+            } else {
+                return false;
+            }
+        }
+
 
         //comparative object
         $scope.search = {

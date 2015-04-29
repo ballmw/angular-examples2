@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default" ng-controller="NavCtrl">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ng-class="{active : route.current.data.routeName === 'view1'}"><a href="#/view1">View 1</a></li>
+                <li ng-class="{active : route.current.data.routeName === 'view2'}"><a href="#/view2">View 2</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6" ng-controller="NavCtrl">
+            {{route.current.data}}
+
+            <div ng-view></div>
+        </div>
+    </div>
+</div>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+
+<script type="text/ng-template" id="view1.html">
+    VIEW 1
+</script>
+<script type="text/ng-template" id="view2.html">
+    VIEW 2
+</script>
+
+<script type="text/javascript">
+    'use strict';
+
+    // Declare app level module which depends on views, and components
+    angular.module('myApp', [
+        'ngRoute',
+        'myApp.view1',
+        'myApp.view2'
+    ]).config(['$routeProvider', function ($routeProvider) {
+        $routeProvider.when('/view2', {
+            data: {routeName: 'view2'},
+            templateUrl: 'view2.html',
+            controller: 'View2Ctrl'
+        }).when('/view1', {
+            data: {routeName: 'view1'},
+            templateUrl: 'view1.html',
+            controller: 'View1Ctrl'
+        }).otherwise({redirectTo: '/view1'});
+    }]).controller('NavCtrl', ['$route', '$scope', function ($route, $scope) {
+        $scope.route = $route;
+    }]);
+
+    angular.module('myApp.view1', []).controller('View1Ctrl', [function () {
+
+    }]);
+
+    angular.module('myApp.view2', []).controller('View2Ctrl', [function () {
+
+    }]);
+</script>
+</body>
+</html>

@@ -18,13 +18,13 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-7 col-sm-6">
-
+            {{loading}}
             <ul>
                 <li ng-repeat="promise in promises">
                     {{promise.wait}} - {{promise.result}} - {{promise.notified}}
                 </li>
             </ul>
-
+            {{done}}
         </div>
     </div>
 </div>
@@ -34,9 +34,13 @@
 
     myApp.controller("MyController", ['$scope', '$timeout', '$q', function ($scope, $timeout, $q) {
 
-        $scope.promises = [];
 
-        var pushPromise = function(i){
+        $scope.promises = [];
+        $scope.done = false;
+        var deferredPromises = [];
+
+
+        var pushPromise = function (i) {
             var deferred = $q.defer();
 
 
@@ -49,7 +53,8 @@
 
             $timeout(function () {
                 deferred.notify(true);
-            }, wait/2);
+            }, wait / 2);
+
 
             deferred.promise.then(function (result) {
                 obj.result = result;
@@ -59,16 +64,24 @@
                 obj.notified++;
             });
 
+            deferredPromises.push(deferred.promise);
             $scope.promises.push(obj);
+
         };
 
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 10; i++) {
             pushPromise(i);
         }
 
-        $q.all($scope.promises).then(function(result){
-           $scope.done = true;
-        });
+        var hideLoader = function(){
+            $scope.loading = false;
+        }
+
+        $scope.loading = true;
+        $q.all(deferredPromises).then(function (result) {
+            $scope.done = true;
+        }).then(hideLoader);
+
 
     }]);
 </script>

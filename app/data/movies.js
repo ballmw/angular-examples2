@@ -2,6 +2,12 @@ window.movies = [
   {
     "id": "162655641",
     "name": "Tom Hanks",
+    "characters": ["Woody"],
+    favorite:true
+  },
+  {
+    "id": "162655909",
+    "name": "Tom Hanks",
     "characters": ["Woody"]
   },
   {

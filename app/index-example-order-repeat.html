@@ -27,15 +27,21 @@
         <div class="col-lg-8 col-md-7 col-sm-6">
 
             <h1>{{title}}</h1>
-
-            <input ng-model="orderByField"> <input ng-model="ascending" type="checkbox">Ascending
             <h2>All</h2>
-            <ul>
-                <li ng-repeat="actor in cast| orderBy:orderByField:ascending" ng-style="{'border:2px solid green':actor.favorite}">
-                    <input type="checkbox" ng-model="actor.favorite">{{actor.name}} -
-                    <span ng-repeat="character in actor.characters">{{character}}<span ng-if="!$last">,</span></span>
-                </li>
-            </ul>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th ng-click="order('id')">ID</th>
+                    <th ng-click="order('name')">NAME</th>
+                    <th ng-click="order('characters')">CHARACTER</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="actor in cast| orderBy:orderByField:ascending" ng-style="{'border:2px solid green':actor.favorite}">
+                    <td>{{actor.id}}</td>
+                    <td>{{actor.name}}</td>
+                    <td><span ng-repeat="character in actor.characters">{{character}}<span ng-if="!$last">,</span></span></td>
+                </tr>
+            </table>
 
         </div>
     </div>
@@ -50,14 +56,12 @@
         $scope.cast = window.movies;
         $scope.ascending = true;
 
-        $scope.orderByField = 'id';
-        /*
-        {
-            "id": "162655641",
-                "name": "Tom Hanks",
-                "characters": ["Woody"]
-        },
-        */
+        $scope.order = function(field){
+            $scope.orderByField.push(field);
+            $scope.ascending = !$scope.ascending;
+        };
+
+        $scope.orderByField = [];
 
         $scope.favorite = function (actor) {
             return actor.favorite == $scope.search.favorite; //true, (falsies -) false or null

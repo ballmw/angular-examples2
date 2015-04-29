@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="app.css">
     <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 
+
 </head>
 <body ng-app="myApp" ng-controller="MyController">
 <div class="container">
@@ -22,12 +23,12 @@
             <h1>{{name}}</h1>
 
 
-            <input type="text" ng-model="name"/>
+            <input type="text" ng-model="form.name"/>
 
             <h2>Text</h2>
             <ul>
                 <li>
-                    {{name | blingify}} (custom)
+                    {{form | blingify}} (custom)
                 </li>
                 <li>
                     {{name | uppercase}}
@@ -39,24 +40,47 @@
 
             <h2>Date</h2>
             <!-- live demo -->
+
+            {{myDate}}
+                     <br>
+            {{myDate | date : 'yyyy'}}
+
             <h2>Number</h2>
+            {{myNum}} <br>
+            {{myNum | number : '1'}}<br>
+            {{myNum | csnumber}}
             <!-- live demo -->
 
         </div>
     </div>
 </div>
 <script src="bower_components/angular/angular.js"></script>
+<script src="filters.js"></script>
 <script>
-    var myApp = angular.module('myApp', []);
+    var myApp = angular.module('myApp', ['callibrity.filters']);
 
     myApp.controller("MyController", function ($scope) {
         $scope.name = "Michael Ball";
+
+        $scope.form = {};
+        $scope.form.name = "Michael Ball";
+
+        $scope.myDate = new Date();
+
+        $scope.myNum = 513.8765309;
     });
     myApp.filter('blingify', function () {
-        return function (text) {
+        return function (obj) {
+            //do something
+            if(!obj['_blingifyname']){
+                obj['_blingifyname'] = '***'+obj.name+'***';
+            }
+            return obj['_blingifyname'];
+
             return '***' + text + '***';
         }
     });
 </script>
+
 </body>
 </html>
