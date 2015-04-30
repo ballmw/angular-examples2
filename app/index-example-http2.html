@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My AngularJS App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+    <link rel="stylesheet" href="app.css">
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+
+</head>
+<body ng-app="myApp" ng-controller="MyController">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <button class='btn' ng-click="download()">Download</button>
+        </div>
+    </div>
+    <div class="row" ng-show="movies">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <ul>
+                <li ng-repeat="movie in movies">
+                    {{movie.name}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+
+            <pre>
+            {{movies | json}}
+            </pre>
+        </div>
+    </div>
+</div>
+<script src="bower_components/angular/angular.js"></script>
+<script>
+    var myApp = angular.module('myApp', []);
+
+    myApp.controller("MyController", ['$scope', '$http', '$q', function ($scope, $http, $q) {
+
+        var awsURL = "https://s3.amazonaws.com/sourcemain.com/movies.json";
+
+        $scope.download = function () {
+            var awsPromise = $http.get(awsURL);
+
+            $scope.loading = true;
+
+            awsPromise.then(function (result) {
+                $scope.movies = result.data;
+                $scope.loading = false;
+            }, function (error) {
+
+            });
+        };
+
+    }]);
+</script>
+</body>
+
+</html>
